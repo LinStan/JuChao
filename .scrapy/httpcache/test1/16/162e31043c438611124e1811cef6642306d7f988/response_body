@@ -1,0 +1,436 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>历史公告查询-巨潮资讯网</title>
+<link href="../css/index.css" rel="stylesheet" type="text/css" />
+<link href="../css/th.css" rel="stylesheet" type="text/css" />
+<link rel ="Stylesheet" type ="text/css" href ="../css/suggest.css" />
+<link rel ="Stylesheet" type ="text/css" href ="/css/list.css" />
+
+<script language="javascript" type="text/javascript" src="../jsnew/function.js"></script>
+<script language="javascript" type="text/javascript" src="../jsnew/general.js"></script>
+<script language="javascript" type="text/javascript" src="../jsnew/dateFormat.js"></script>
+<script language="javascript" type="text/javascript" src="../jsnew/searchhis.js"></script>
+<script type ="text/javascript" src ="../jsnew/Suggest.js"></script>
+<script type ="text/javascript" src ="../jsnew/stocklist_stock.js"></script>
+<script type ="text/javascript" >
+    function load() {
+        this.stockCode = document .getElementById('stockCode');
+        if (this.stockCode) {
+            var suggestUrl = "";
+            var suggestStock = new Suggest(suggestUrl);
+            suggestStock.bind(this.stockCode);
+        }
+        
+        this.stockID_ = document .getElementById('stockID_');
+        if (this.stockID_) {
+            var suggestUrl = "";
+            var suggestStock = new Suggest(suggestUrl);
+            suggestStock.bind(this.stockID_);
+        }
+        
+        var form=document.getElementById("queryHistoryForm");
+        if (form.startTime.value==''){
+            form.startTime.value=today();
+        }
+        
+        if (form.endTime.value==''){
+            form.endTime.value=today(); 
+        }        
+    }
+</script>
+<script type="text/javascript">
+<!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</script>
+<SCRIPT language="javascript">
+<!--
+var pageCount=4;
+//-->
+
+function toOrder(order)
+{
+    var form=document.getElementById("queryHistoryForm");
+    var ordType=form.orderby.value;
+    var c1=ordType.substring(4,5);
+    var d1=ordType.substring(5,6);
+
+    if (order=='code'){
+       c1=(c1=='0'?'1':'0');
+    } else if (order=='titl'){
+       c1=(c1=='0'?'1':'0');
+    }else{
+       d1=(d1=='0'?'1':'0');
+    }
+    
+    form.orderby.value=order+c1+d1;
+    form.submit();
+    return true;
+}
+
+function Query(frm)
+{
+    var form=document.getElementById("queryHistoryForm");
+    form.pageNo.value='1';
+    return queryHistory(frm);
+}
+</SCRIPT>
+</head>
+
+<body onLoad="load();">
+    
+<iframe id="i_top" border=0 narginwidth=0 marginheight=0  src="../top.htm" height='180' width="960" frameBorder=0 scrolling=no vspace=0></iframe>
+
+<div id="gd">
+    <div class="gd1">滚动播报：</div>
+    <div class="gd1"><MARQUEE direction=left width=540 height=32 onmouseover=this.stop() onmouseout=this.start() scrollAmount=3>    
+        <script language="javascript" src="../jsnew/gdlmsy.js" type="text/javascript"></script>
+            </MARQUEE>  </div>
+    <div class="cx">查询：</div>
+    
+    <input type="hidden" id="hLmStockCode" value="brief?szmb000001"/>   
+    
+    <form id="searchForm" name="searForm" method="post" action="searchresult.jsp" onSubmit="return searchCommit('');"  target="_blank"> 
+    <div><input id="menuName" name="menuName" type="hidden" value="">
+         <input id="stockID_" name="stockID_" type="text" onFocus="this.select()"
+                onClick="if(this.value=='代码/简称/拼音')this.value=''"
+                onMouseOver="this.focus()" 
+                title="代码/简称/拼音"
+                style="WIDTH: 100px"
+                value='代码/简称/拼音'
+                autocomplete="off"
+                maxlength="6" />
+    </div>
+    <div class="an"><img src="../imagesnew/c1.jpg" width="50" height="21" onClick="searchCommit('fulltext')"/><img src="../imagesnew/c2.jpg" width="50" height="21" onClick="searchCommit('brief')"/>   </div>  
+    </form> 
+</div>
+
+<div id="erji"> 
+<div id="nleft">                            
+        <div class="dd"><img src="/imagesnew/q36.gif" width="186" height="1" /></div>
+        <div class="fllm">
+        <h2>公告查询</h2></div>         
+        <form id="queryHistoryForm" name="queryHistoryForm" action="search.jsp" 
+                        method="post"> 
+        <input type="hidden" id="orderby" name="orderby" value="date11"/> 
+        <div class="fllm3">
+          <div class="fllm2">         
+          <div class="ssk">
+            <div class="zhi-2"><select name="marketType" id="marketType" >
+                  <option value="" >请选择市场类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+    
+                  <option value="012002" >深市主板</option>
+                  <option value="012003" >深市中小板</option>
+                  <option value="012015" >深市创业板</option>
+                  <option value="012001" >沪市主板</option>
+                  
+
+                </select>
+            </div> 
+            <div class="zhi-2"><select name="noticeType" id="noticeType" onChange="showItem(this);">
+                  <option value="" >请选择公告类型</option>
+                  <option value="010301" selected
+>年度报告</option>
+                  <option value="010303" >半年度报告</option>
+                  <option value="010305" >一季度报告</option>
+                  <option value="010307" >三季度报告</option>
+                  <option value="010116" >拟上市公司公告</option>
+                  <option value="0102" >首次公开发行及上市</option>
+                  <option value="0105" >配股</option>
+                  <option value="0107" >增发</option>
+                  <option value="0109" >可转换债券</option>
+                  <option value="0110" >权证相关公告</option>
+                  <option value="0111" >其它融资</option>
+                  <option value="0113"  title="权益分派及限制出售股份上市">权益及限制出售股份</option>
+                  <option value="0115" >股权变动</option>
+                  <option value="0117" >交易</option>
+                  <option value="0119" >股东大会</option>
+                  <option value="0121"  title="澄清、风险提示、业绩预告事项">澄清、风险、业绩预告</option>
+                  <option value="0125" >特别处理和退市</option>
+                  <option value="0127" >补充及更正</option>
+                  <option value="0129" >中介机构报告</option>
+                  <option value="0131" >上市公司制度</option>
+                  <option value="0123" >其它重大事项</option>
+                </select>
+            </div>                  
+            <div class="zhi"><input id="stockCode" name="stockCode" type="text"
+                                title="代码/简称/拼音" 
+                                onClick="if(this.value=='代码/简称/拼音')this.value=''"
+                                onMouseOver="this.focus()" 
+                                 value='代码/简称/拼音'
+                                 
+                                autocomplete="off"  size="16" maxlength="12" />
+            </div>
+            
+            <div class="zhi"><input type="text" name="keyword" onFocus="this.select()"
+                            onClick="if(this.value=='请输入关键字')this.value=''"
+                            onMouseOver="this.focus()" onMouseOut="if(this.value=='')this.value='请输入关键字';"
+                             value='请输入关键字'
+                              size="16" maxlength="100" />
+            </div>                      
+            
+            <div class="zhi"><input type="text" name="startTime" title="日期格式如：YYYY-MM-DD" value="2017-02-28" size=10 onFocus="this.select();" onBlur="javascript:mashup(this);" />
+                 至<br />
+            </div>
+
+            <div class="zhi"><input type="text" name="endTime" title="日期格式如：YYYY-MM-DD" value="2017-02-28" size=10 onFocus="this.select();" onBlur="javascript:mashup(this);" /> 
+                <input name="Submit" type="button" value="查询" onClick="Query(this.form)" /></div>
+            </div>
+          </div></div> 
+          <input type="hidden" name="pageNo" value="4">
+         </form>
+         
+        <div class="fllm3">
+          <div class="fllm2">
+            <p><strong>使用说明：</strong><br />
+              1.可以单选或组合以上查询条件进行查询。
+              <br />
+              2.在输入证券代码，并选择查询时间段后（查询时间段可跨年度），点击查询，即可查询到该证券在所选时间段内的所有公告；如证券代码为空则不能跨年度查询，只能查询到一个年度内该时间段所有证券的公告。
+              <br />
+              3.在选择查询时间段时请尽量不要设置过长，以减少查询等待时间。<br />
+              4.如需更精确的查询，可输入关键词或选择公告类型（例如：想查询某股票在2008年所有的股东
+大会决议公告，可以输入关键词“股东大会决议”或选择公告类型“股东大会”）。<br />
+<br />
+<strong>查询提示：</strong><br />
+为缩短查询时间，提高查询准确程度，建议您选择公告类型，明确查询时间段。
+
+<br />
+<br />
+<strong>免责声明：</strong>本查询系统竭力保证所提供证券市场信息和服务的准确性和完整性，但并不担保（无论是明示、
+默示、法定或其他形式）其准确性和完整性。任何使用方不得就全部或部分使用其中的证券数据
+作为依据并对由此而引起的任何损失向本公司提出索赔。 </p></div></div>
+</div>
+<div id="nright">
+    <div class="n1">
+            <div class="n2">历史公告查询</div>
+    </div>
+    <style>.current {border: #666 1px solid;padding:2px 4px;text-align: center;color:#666;margin-right:2px; background-color:#ebebeb;text-decoration: none;zoom:1}.da_tbl td.dm{width:66px;} .da_tbl td.qsgg{padding-left:10px;width:598px;}.th_gg{padding-left:10px;width:608px;} .da_tbl td.ggsj{width:150px;text-align:left;}.th_ggsj{width:140px;}.th_dm{width:66px;}.g_width{width:758px;}.g_minWidth{width:708px;}</style>    
+<div style="border:1px #CCC solid; margin:0px; padding-bottom:10px;" class="g_width">
+	    <div id="con_two_4" style="display:block;" >
+	    			<table border="0" cellspacing="0" cellpadding="0" class="da_tbl g_width">
+	    							<tr>
+	   
+    
+		    <th class="th_dm">
+		        <div style="position:relative;height:28px; line-height:28px;">
+		            <div class="outtip3">
+		                <a href="javascript:toOrder('code');" id="td0" hidefocus="true" style="text-decoration:none" >
+		                    <font id="font0" style="color:#999;">代码</font>
+		                    <span>
+		                        <img class="tp" style="position:relative;margin-top:0px;" id="img0" border="0" src="/imagesnew/row112.gif">
+		                    </span>
+		                </a>
+		            </div>
+		        </div>
+		    </th>	    
+				 <th style="padding-left:10px;" class="th_gg">
+		        <span class="outtip2" id="div3" style="position:relative; ">
+		            <a href="javascript:toOrder('titl');" id="td2" hidefocus="true" style="text-decoration:none" >
+		                <font id="font2" style="color:#999;">标题</font>
+		                <span>
+		                    <img class="tp" style="position:relative;margin-top:0px;" id="img2" border="0" src="/imagesnew/row112.gif">
+		                </span>
+		            </a>
+		        </span>
+		    </th>    
+		    <th class="th_ggsj">
+		        <div id="div5" style="position:relative;height:28px; line-height:28px;">
+		            <div class="outtip4">
+		                <a href="javascript:toOrder('date');" id="td6" hidefocus="true" style="text-decoration:none" >
+		                    <font id="font6" style="color:#000;">公告时间</font>
+		                    <span>
+		                        <img class="tp" style="position:relative;margin-top:0px;" id="img6" border="0" src="/imagesnew/row22.gif">
+		                    </span>
+		                </a>
+		            </div>
+		        </div>
+		    </th>	 
+
+    
+		</tr>
+		
+		<tr><td colspan="4">			
+	  		<table class="da_tbl" cellspacing="0" cellpadding="0" border="0">
+      	
+					<tbody>
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600678</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203114196.PDF" target=new>四川金顶：2016年年度报告</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (2517K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600678</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203114204.PDF" target=new>四川金顶：2016年年度报告摘要</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (701K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600729</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203111940.PDF" target=new>重庆百货：2016年年度报告</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (2902K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600729</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203111928.PDF" target=new>重庆百货：2016年年度报告摘要</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (392K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600870</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203113301.PDF" target=new>厦华电子：2016年年度报告</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (2099K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600870</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203113296.PDF" target=new>厦华电子：2016年年度报告摘要</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (551K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600873</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203113421.PDF" target=new>梅花生物：2016年年度报告</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (3504K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">600873</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203113408.PDF" target=new>梅花生物：2016年年度报告摘要</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (582K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">601016</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203114081.PDF" target=new>节能风电：2016年年度报告</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (3706K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">601016</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203114078.PDF" target=new>节能风电：2016年年度报告摘要</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (592K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+
+                 
+
+     	
+
+
+						<tr>
+							<td class="dm" valign="top">603338</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203113640.PDF" target=new>浙江鼎力：2016年年度报告</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (2172K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+
+ 
+        	
+						<tr>
+							<td class="dm" valign="top">603338</td>							
+							<td class="qsgg"><a href="/finalpage/2017-02-28/1203113632.PDF" target=new>浙江鼎力：2016年年度报告摘要</a><img align=absMiddle border=0 height=16 src='/imagesnew/Pdf.gif' width=16> (380K)</td>
+							<td class="ggsj" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017-02-28 </td>
+						</tr>
+         	
+        	
+
+					</tbody>
+				</table>
+							
+		</td></tr>
+		
+		</table> 
+	</div>
+	<div id="splitPageShowDiv" style="margin:8px 0px 0px 13px;padding:0px 0px 0px 0px;height:30px;"></div>	
+					
+								<span class='sabrosus2' style='float:left'><span><a href='javascript:void(0)' style='cursor:pointer;' onclick='goPage(1);'>1</a></span><span><a href='javascript:void(0)' style='cursor:pointer;' onclick='goPage(2);'>2</a></span><span><a href='javascript:void(0)' style='cursor:pointer;' onclick='goPage(3);'>3</a></span><span class='current2'><span style='cursor:pointer;' onclick='goPage(4);'>4</span></span></span>							
+
+<span class="count" style="margin:0px 50px 0px 0px;padding-top:0px;">共&nbsp;&nbsp;102条</span>							
+	<div  id="" class="div"></div> 
+	<div id="changpage" style=" margin-left:13px; height:30px; margin-top:5px;"></div> 
+	<div style="border:solid 1px red; margin:0px auto; color:#666666; text-align:left; border:1px dashed #CCC; background: #F5F5F5; line-height:19px; padding:15px;" class="g_minWidth">免责声明：本系统竭力保证所提供的证券市场信息准确可靠，但并不担保（无论是明示、 默示、法定或其他形式）其准确性和完整性。任何使用方不得就全部或部分使用其中的证券市场信息作为依据并对由此而引起的任何损失向本公司提出索赔。</div>
+</div> 
+
+</div>
+</div>
+
+<div id="erdi" style="float:left;"><img src="../imagesnew/q35.gif" width="189" height="4" /></div>
+
+<iframe id="i_bottom" border=0 narginwidth=0 marginheight=0  src="../bottom.htm" height='260' width="960" frameBorder=0 scrolling=no vspace=0></iframe>  
+</body>
+</html>
+
+
+
+<script language="JavaScript">
+    var frm=document.getElementById("queryHistoryForm");
+    frm.stockCode.disabled=false; 
+</script>
+
