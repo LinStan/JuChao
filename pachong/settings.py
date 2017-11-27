@@ -13,8 +13,8 @@ BOT_NAME = 'pachong'
 
 SPIDER_MODULES = ['pachong.spiders']
 NEWSPIDER_MODULE = 'pachong.spiders'
-PDF_STORE='D:/juchao'
-
+#PDF_STORE='D:/juchao'
+PDF_STORE='./output'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \

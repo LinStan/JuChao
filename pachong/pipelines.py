@@ -34,7 +34,9 @@ class PachongPipeline(object):
         return item
         '''
     def process_item(self, item, spider):
-        dir_path = '%s/%s' % (pachong.settings.PDF_STORE, spider.name)  # 存储路径
+        dir_path = '%s/%s' % (pachong.settings.PDF_STORE, spider.name)
+        # 存储路径为PDF_STORE/spider_name
+        # 目前为当前目录下的output下的pachong文件夹下
         print('dir_path', dir_path)
         # url_head = 'www.cninfo.com.cn'
         if not os.path.exists(dir_path):
